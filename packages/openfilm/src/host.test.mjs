@@ -135,7 +135,13 @@ test('Windows: Vulkan when its renderer is a GPU, read once; otherwise the defau
   assert.equal(gpu.count, 1);
   assert.deepEqual(l.closed, []);
 
-  for (const said of [async () => 'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)', async () => 'none', async () => { throw new Error('page crashed'); }]) {
+  /* WARP is Microsoft's own software rasteriser: a machine with no GPU driver, or a remote session, reads it. */
+  for (const said of [
+    async () => 'ANGLE (Google, Vulkan 1.3.0 (SwiftShader Device (Subzero) (0x0000C0DE)), SwiftShader driver)',
+    async () => 'ANGLE (Microsoft, Microsoft Basic Render Driver (0x0000008C) Direct3D11 vs_5_0 ps_5_0, D3D11)',
+    async () => 'none',
+    async () => { throw new Error('page crashed'); },
+  ]) {
     const software = reads(said);
     l = launcher(); pick = vulkanFirst(software.renderer);
     const [first, second] = await Promise.all([pick(l.open), pick(l.open)]);
