@@ -234,7 +234,7 @@ export async function launch({ headed = false, channel = headed ? 'chromium' : n
   return browser;
 }
 
-/** A renderer string that is not a GPU: WebGL drawn on the CPU. WARP draws it there too, and names itself "Microsoft Basic Render Driver". */
+/** A renderer string that is not a GPU: WebGL drawn on the CPU. Windows' WARP is one: "Microsoft Basic Render Driver". */
 export const SOFTWARE_GL = /swiftshader|llvmpipe|software|basic render/i;
 
 /** The page's WebGL renderer as the driver names it; 'none' without WebGL. */
